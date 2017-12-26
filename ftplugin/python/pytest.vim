@@ -354,7 +354,8 @@ endfunction
 
 
 function! s:RunInSplitWindow(path)
-    let cmd = g:pytest_prefix . "py.test --tb=short " . a:path
+    call Rooter()
+    let cmd = "dco exec app py.test --tb=short " . a:path
     let command = join(map(split(cmd), 'expand(v:val)'))
     let winnr = bufwinnr('PytestVerbose.pytest')
     silent! execute  winnr < 0 ? 'botright new ' . 'PytestVerbose.pytest' : winnr . 'wincmd w'
@@ -564,9 +565,11 @@ function! s:RunPyTest(path, ...)
     let g:pytest_last_session = ""
 
     if (len(parametrized) && parametrized != "0")
-        let cmd = g:pytest_prefix . "py.test -k " . parametrized . " --tb=short " . a:path
+	call Rooter()
+        let cmd = "dco exec app py.test -k " . parametrized . " --tb=short " . a:path
     else
-        let cmd = g:pytest_prefix . "py.test --tb=short " . a:path
+	call Rooter()
+        let cmd  "dco exec app py.test --tb=short " . a:path
     endif
 
     " NeoVim support
